@@ -5,6 +5,7 @@ const btn = document.querySelector("form button");
 const fromCurr = document.querySelector(".from-currency select");
 const toCurr = document.querySelector(".to-currency select");
 const msg = document.querySelector(".msg");
+const exchangeIcon = document.querySelector(".exchange-icon");
 
 // Populate dropdowns with currency options and set default selections
 for (let select of dropdowns) {
@@ -33,6 +34,23 @@ function updateFlag(element) {
     img.src = newSrc;
 }
 
+// Add event listener for swap icon
+exchangeIcon.addEventListener("click", () => {
+    const tempValue = fromCurr.value;
+    fromCurr.value = toCurr.value;
+    toCurr.value = tempValue;
+
+    // Update flags after swapping
+    updateFlag(fromCurr);
+    updateFlag(toCurr);
+
+    // Trigger conversion if amount is present
+    const amount = document.querySelector(".amount input");
+    if (amount.value && amount.value >= 1) {
+        btn.click(); // Simulate button click to update the conversion
+    }
+});
+
 // Add event listener to the button
 btn.addEventListener("click", async (evt) => {
     evt.preventDefault();
@@ -60,10 +78,3 @@ btn.addEventListener("click", async (evt) => {
         console.error(err);
     }
 });
-
-
-    
-    
-    
-
-
